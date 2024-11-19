@@ -115,4 +115,4 @@ def atualizar_cidade_uf(deal_id, cep):
         return jsonify({"erro": f"Erro interno no servidor: {str(e)}"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=0524)
+    app.run(host='0.0.0.0', port=524)

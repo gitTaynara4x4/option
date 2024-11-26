@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 BITRIX_WEBHOOK_URL = os.getenv('BITRIX_WEBHOOK_URL')
+URL_VIACEP = os.getenv('URL_VIACEP')
 URL_OPENCEP = os.getenv('URL_OPENCEP')
 URL_BRASILAPI = os.getenv('URL_BRASILAPI')
 
@@ -25,6 +26,20 @@ def get_city_and_uf(cep):
     logging.info(f"Consultando o CEP: {cep}")
     cep = cep.strip().replace("-", "")
 
+    try:
+        url_viacep = f"{URL_VIACEP}/{cep}/json/"
+        response = requests.get(url_viacep, timeout=5)
+        if response.status_code == 200 and "erro" not in response.json():
+            data = response.json()
+            cidade = data.get("cidade", "")
+            rua = data.get("logradouro", "")
+            bairro = data.get("bairro", "")
+            uf = data.get("uf", "")
+            logging.info(f"OpenCEP foi utilizado - Cidade: {cidade}, Rua: {rua}, Bairro: {bairro}, UF: {uf}")
+            return cidade, rua, bairro, uf
+    except requests.RequestException as e:
+        logging.error(f"Erro ao Consultar o ViaCEP: {e}")
+    
     try: 
         time.sleep(2)
         url_opencep = f"{URL_OPENCEP}/{cep}"

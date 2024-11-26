@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 BITRIX_WEBHOOK_URL = os.getenv('BITRIX_WEBHOOK_URL')
-URL_VIACEP = os.getenv('URL_VIACEP')
 URL_OPENCEP = os.getenv('URL_OPENCEP')
 URL_BRASILAPI = os.getenv('URL_BRASILAPI')
 
@@ -27,7 +26,7 @@ def get_city_and_uf(cep):
     cep = cep.strip().replace("-", "")
 
     try:
-        url_viacep = f"{URL_VIACEP}/{cep}/json/"
+        url_viacep = f"https://viacep.com.br/ws/{cep}/json/"
         response = requests.get(url_viacep, timeout=5)
         if response.status_code == 200 and "erro" not in response.json():
             data = response.json()

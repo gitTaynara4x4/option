@@ -28,7 +28,7 @@ def get_city_and_uf(cep):
 
     try:
         url_viacep = f"{URL_VIACEP}"
-        response = request.get(url_viacep, timeout=5)
+        response = requests.get(url_viacep, timeout=5)
         if response.status_code == 200 and "erro" not in response.json():
             data = response.json()
             cidade = data.get("cidade", "")
@@ -43,7 +43,7 @@ def get_city_and_uf(cep):
     try: 
         time.sleep(2)
         url_opencep = f"{URL_OPENCEP}/{cep}"
-        response_opencep = request.get(url_opencep, timeout=5)
+        response_opencep = requests.get(url_opencep, timeout=5)
         if response_opencep.status_code == 200:
             data = response_opencep.json()
             cidade = data.get("codade", "")
@@ -57,8 +57,8 @@ def get_city_and_uf(cep):
 
     try: 
         time.sleep(2)
-        url_brasilapi = f"{url_brasilapi}/{cep}"
-        response_brasilapi = request.get(url_brasilapi, timeout=5)
+        url_brasilapi = f"{URL_BRASILAPI}/{cep}"
+        response_brasilapi = requests.get(url_brasilapi, timeout=5)
         if response_brasilapi.status_code == 200:
             data = response_brasilapi.json()
             cidade = data.get("city", "")
@@ -116,5 +116,6 @@ def atualizar_cidade_uf(deal_id, cep):
         logging.error(f"Erro inesperado: {e}")
         return jsonify({"erro": f"Erro interno no servidor: {str(e)}"}), 500
     
-if __name__ == ' __main__':
-    app.run(host='0.0.0.0', port=7964)
+if __name__ == '__main__':
+
+    app.run(host='0.0.0.0', port=6927)

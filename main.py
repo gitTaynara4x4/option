@@ -27,7 +27,7 @@ def get_city_and_uf(cep):
     cep = cep.strip().replace("-", "")
 
     try:
-        url_viacep = f"{URL_VIACEP}"
+        url_viacep = f"{URL_VIACEP}/{cep}/json/"
         response = requests.get(url_viacep, timeout=5)
         if response.status_code == 200 and "erro" not in response.json():
             data = response.json()
@@ -46,7 +46,7 @@ def get_city_and_uf(cep):
         response_opencep = requests.get(url_opencep, timeout=5)
         if response_opencep.status_code == 200:
             data = response_opencep.json()
-            cidade = data.get("codade", "")
+            cidade = data.get("cidade", "")
             rua = data.get("logradouro", "")
             bairro = data.get("bairro", "")
             uf = data.get("uf", "")
